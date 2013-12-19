@@ -87,7 +87,6 @@ class charityclear extends PaymentModule
 
         $charityclearparams = array();
         $charityclearparams['merchantID'] = Configuration::get('CHARITYCLEAR_MERCHANT_ID');
-        $charityclearparams['merchantPwd'] = Configuration::get('CHARITYCLEAR_MERCHANT_PWD');
         $charityclearparams['currencyCode'] = Configuration::get('CHARITYCLEAR_CURRENCY_ID');
         $charityclearparams['countryCode'] = Configuration::get('CHARITYCLEAR_COUNTRY_ID');
         $charityclearparams['action'] = "SALE";
@@ -101,8 +100,11 @@ class charityclear extends PaymentModule
         $charityclearparams['customerAddress'] = $invoiceAddress->address1 . "\n" . $invoiceAddress->address2 . "\n" . $invoiceAddress->city;
         $charityclearparams['customerPostCode'] = $invoiceAddress->postcode;
         $charityclearparams['merchantData'] = "PrestaShop " . $this->name . ' ' . $this->version;
-        $charityclearparams['customerPhone'] = empty($invoiceAddress->phone) ? $invoiceAddress->phone_mobile : $invoiceAddress->phone;
-
+        
+        if(!empty($invoiceAddress->phone)){
+        	$charityclearparams['customerPhone'] = $invoiceAddress->phone;
+        }
+        
         if (Configuration::get('CHARITYCLEAR_MERCHANT_PASSPHRASE')) {
             ksort($charityclearparams);
             $sig_fields = http_build_query($charityclearparams) . Configuration::get('CHARITYCLEAR_MERCHANT_PASSPHRASE');
