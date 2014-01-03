@@ -83,11 +83,14 @@ class charityclear extends PaymentModule
         global $smarty;
 
         $invoiceAddress = new Address((int)$params['cart']->id_address_invoice);
-
+	$currency = new Currency((int)($params['cart']->id_currency));
 
         $charityclearparams = array();
         $charityclearparams['merchantID'] = Configuration::get('CHARITYCLEAR_MERCHANT_ID');
-        $charityclearparams['currencyCode'] = Configuration::get('CHARITYCLEAR_CURRENCY_ID');
+        
+        $chairtyclearparams['currencyCode'] = is_numeric(Configuration::get('CHARITYCLEAR_CURRENCY_ID')) ? Configuration::get('CHARITYCLEAR_CURRENCY_ID') : $currency->iso_code_num;
+        //$charityclearparams['currencyCode'] = Configuration::get('CHARITYCLEAR_CURRENCY_ID');
+        
         $charityclearparams['countryCode'] = Configuration::get('CHARITYCLEAR_COUNTRY_ID');
         $charityclearparams['action'] = "SALE";
         $charityclearparams['type'] = 1;
