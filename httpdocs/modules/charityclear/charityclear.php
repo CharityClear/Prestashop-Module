@@ -88,7 +88,7 @@ class charityclear extends PaymentModule
         $charityclearparams = array();
         $charityclearparams['merchantID'] = Configuration::get('CHARITYCLEAR_MERCHANT_ID');
         
-        $chairtyclearparams['currencyCode'] = is_numeric(Configuration::get('CHARITYCLEAR_CURRENCY_ID')) ? Configuration::get('CHARITYCLEAR_CURRENCY_ID') : $currency->iso_code_num;
+        $charityclearparams['currencyCode'] = is_numeric(Configuration::get('CHARITYCLEAR_CURRENCY_ID')) ? Configuration::get('CHARITYCLEAR_CURRENCY_ID') : $currency->iso_code_num;
         //$charityclearparams['currencyCode'] = Configuration::get('CHARITYCLEAR_CURRENCY_ID');
         
         $charityclearparams['countryCode'] = Configuration::get('CHARITYCLEAR_COUNTRY_ID');
