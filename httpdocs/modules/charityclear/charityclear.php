@@ -104,14 +104,17 @@ class charityclear extends PaymentModule
         $charityclearparams['customerPostCode'] = $invoiceAddress->postcode;
         $charityclearparams['merchantData'] = "PrestaShop " . $this->name . ' ' . $this->version;
         
+        $signing = "merchantID,currencyCode,countryCode,action,type,orderRef,transactionUnique,amount,redirectURL,customerName,customerAddress,customerPostCode,merchantData";
+        
         if(!empty($invoiceAddress->phone)){
         	$charityclearparams['customerPhone'] = $invoiceAddress->phone;
+        	$signing .= ",customerPhone";
         }
-        
+                
         if (Configuration::get('CHARITYCLEAR_MERCHANT_PASSPHRASE')) {
             ksort($charityclearparams);
             $sig_fields = http_build_query($charityclearparams) . Configuration::get('CHARITYCLEAR_MERCHANT_PASSPHRASE');
-            $charityclearparams['signature'] = hash('SHA512', $sig_fields);
+            $charityclearparams['signature'] = hash('SHA512', $sig_fields) . "|" . $signing;
         }
 
         $smarty->assign('p', $charityclearparams);
